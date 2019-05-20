@@ -9,11 +9,11 @@ const userRoutes = require("./users");
 
 // diary routes
 router.use("/diaries", diaryRoutes);
-// drink routes
+// drink routes may not be needed
 router.use("/drinks", drinkRoutes);
-// food routes
+// food routes may not be needed
 router.use("/foods", foodRoutes);
-// fnb routes
+// fnb routes may replace food and drinks above
 router.use("/fnbs", fnbRoutes);
 // user routes
 router.use("/users", userRoutes);
