@@ -1,0 +1,39 @@
+/* These rules apply to all items on the page with this class */
+.list-overflow-container {
+  max-height: 545px;
+  border: 1px #DDDDDD solid;
+  border-radius: 4px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+/* These rules apply to all of the unordered list contained in an item with this class */
+.list-overflow-container ul {
+  margin: 0;
+}
+
+/* These rules apply to all of the list items contained in an item with this class */
+.list-overflow-container li {
+  border-radius: 0px;
+  border-left: none;
+  border-right: none;
+}
+
+/* These rules apply to all of the children of list items contained in an item with this class */
+.list-overflow-container li * {
+  cursor: pointer;
+}
+
+/* These rules apply to all of the links contained inside list items contained in an item with this class */
+.list-overflow-container li a {
+  color: #2A878C;
+}
+
+/* These rules apply to the first child of the list items contained in an item with this class */
+.list-overflow-container li:first-child {
+  border-top: none;
+}
+
+/* These rules apply to the last child of the list items contained in an item with this class */
+.list-overflow-container li:last-child {
+  border-bottom: none;
+}

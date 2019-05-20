@@ -1,0 +1,5 @@
+/* These rules apply to the delete button */
+.delete-btn {
+  float: right;
+  color: #e74944;
+}
