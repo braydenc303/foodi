@@ -3,12 +3,12 @@ const router = require("express").Router();
 // Give index access to the routes
 const drinkRoutes = require("./drinks");
 const foodRoutes = require("./foods");
-const diaryRoutes = require("./diaries");
+const entryRoutes = require("./entries");
 const fnbRoutes = require("./fnbs");
 const userRoutes = require("./users");
 
-// diary routes
-router.use("/diaries", diaryRoutes);
+// entry routes
+router.use("/entries", entryRoutes);
 // drink routes may not be needed
 router.use("/drinks", drinkRoutes);
 // food routes may not be needed
