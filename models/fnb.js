@@ -1,3 +1,6 @@
+// Because the food and drink models are basically identical, I think I can get away with using just one model for both, fnb (food and beverage)
+
+
 // Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It manages relationships between data, provides schema validation, and is used to translate between objects in code and the representation of those objects in MongoDB.
 const mongoose = require("mongoose");
 

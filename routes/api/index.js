@@ -4,6 +4,7 @@ const router = require("express").Router();
 const drinkRoutes = require("./drinks");
 const foodRoutes = require("./foods");
 const diaryRoutes = require("./diaries");
+const fnbRoutes = require("./fnbs");
 const userRoutes = require("./users");
 
 // diary routes
@@ -12,6 +13,8 @@ router.use("/diaries", diaryRoutes);
 router.use("/drinks", drinkRoutes);
 // food routes
 router.use("/foods", foodRoutes);
+// fnb routes
+router.use("/fnbs", fnbRoutes);
 // user routes
 router.use("/users", userRoutes);
 
