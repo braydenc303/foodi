@@ -21,9 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 // This is a built-in middleware function in Express. It parses incoming requests with JSON payloads and is based on body-parser.
 // Returns middleware that only parses JSON and only looks at requests where the Content-Type header matches the type option. This parser accepts any Unicode encoding of the body and supports automatic inflation of gzip and deflate encodings.
 app.use(express.json());
+// The following are all lines needed for the auth middleware
 
 // Define middleware here
-// The following are all lines needed for the auth middleware
 // app.use(flash());
 // app.use(express.static("public"));
 // app.use(session({
@@ -48,7 +48,7 @@ app.use(logger("dev"));
 app.use(routes);
 
 //If deployed, use the deployed database.  Otherwise use the local mongo database
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/memoryGame"
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/foodi"
 
 
 // Connect to the Mongo DB

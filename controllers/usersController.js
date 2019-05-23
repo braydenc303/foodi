@@ -16,7 +16,8 @@ module.exports = {
         db.User
             .findById(req.params.id)
             // Here we need to populate the user with their associated collections/records
-            .populate("")
+            .populate("fnbArray")
+            .poplulate("entryArray")
             .then(dbModel => {
 
                 

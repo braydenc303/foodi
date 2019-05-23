@@ -11,3 +11,5 @@
 - Fill out the readme file.
 
 - Make sure that when a user is deleted, all of their notes and entries are deleted as well.
+
+- error currently coming from a lack of an api/books.js
