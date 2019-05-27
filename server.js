@@ -9,9 +9,9 @@ const routes = require("./routes");
 // Creates our own instance of express
 const app = express();
 // packages for passport session authentication:
-// const session = require("express-session");
-// const passport = require("passport");
-// const flash = require('connect-flash');
+const session = require("express-session");
+const passport = require("passport");
+const flash = require('connect-flash');
 // Creates a dynamic port so that we can use this code both locally and in production.
 const PORT = process.env.PORT || 3001;
 
