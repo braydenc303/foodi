@@ -1,7 +1,7 @@
 // This constant called db will be called whenever we want to manipulate the data in our database. In order to do so, we have to give it access to our models.
 const db = require("../models");
 
-// Defining methods for the entriesController to be used in the books.js api routes.
+// Defining methods for the entriesController to be used in the entries.js api routes.
 module.exports = {
   // Finds all of the records
   findAll: function(req, res) {
