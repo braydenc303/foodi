@@ -28,7 +28,7 @@ class Books extends Component {
   // Code to get all of the books information from the database so that we can then display them as a list.
   loadBooks = () => {
     // Here we use our API to make an axios call to the database to get all books.
-    API.getBooks()
+    API.getFnbs()
     // When we get the response back we set the state of the books array by filling it in with objects for each book with the structure: {title:"", author: "", synopsis: ""}
       .then(res =>
         this.setState({ books: res.data, title: "", author: "", synopsis: "" })

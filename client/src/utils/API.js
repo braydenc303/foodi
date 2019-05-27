@@ -4,8 +4,8 @@ import axios from "axios";
 // These front end api calls are hit either when a component mounts, or when a user clicks on a link or a submit button. They then use axios to kick off the backend routes.
 export default {
   // Gets all books
-  getBooks: function() {
-    return axios.get("/api/books");
+  getFnbs: function() {
+    return axios.get("/api/fnbs");
   }, 
   // Gets the book with the given id
   getBook: function(id) {

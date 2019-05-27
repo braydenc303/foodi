@@ -1,12 +1,12 @@
 // This constant called db will be called whenever we want to manipulate the data in our database. In order to do so, we have to give it access to our models.
 const db = require("../models");
 
-// Defining methods for the booksController to be used in the books.js api routes.
+// Defining methods for the booksController to be used in the fnbs.js api routes.
 module.exports = {
   // Finds all of the records
   findAll: function(req, res) {
-    // in the books collection
-    db.Book
+    // in the fnbs collection
+    db.Fnb
       .find(req.query)
       // sorts them in descending order of their creation date
       .sort({ date: -1 })
@@ -17,8 +17,8 @@ module.exports = {
   },
   // Finds a record with a matching ID
   findById: function(req, res) {
-    // in the books collection
-    db.Book
+    // in the fnbs collection
+    db.Fnb
     // we get our id, from the request parameters which is usually grabbed from a data attribute on click/submit
       .findById(req.params.id)
       // then responds with a json object of data built from our model if successful
@@ -28,8 +28,8 @@ module.exports = {
   },
   // Creates a record
   create: function(req, res) {
-    // in the books collections
-    db.Book
+    // in the fnbs collections
+    db.Fnb
     // built from the data submitted to the body of the request
       .create(req.body)
       // then responds with a json object of data built from our model if successful
@@ -39,8 +39,8 @@ module.exports = {
   },
   // Udates a record
   update: function(req, res) {
-    // in the books collection
-    db.Book
+    // in the fnbs collection
+    db.Fnb
     // that has a matching id to what is coming from the parameters of our request which is usually grabbed from a data attribute on click/submit, with the data submitted to the body of the request.
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       // then responds with a json object of dat built from our model if successful
@@ -50,8 +50,8 @@ module.exports = {
   },
   // Removes a record
   remove: function(req, res) {
-    // from the books collection
-    db.Book
+    // from the fnbs collection
+    db.Fnb
     // Here we find the record that has an ID that matches what is coming from the parameters of our request, which is usually grabbed from a data attribute on click/submit
       .findById({ _id: req.params.id })
       // then we remove it from the collection
