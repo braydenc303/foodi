@@ -39,3 +39,22 @@ function App() {
 }
 // export app to be used in index.js
 export default App;
+
+// The following lines will be added to the switch once the components are complete
+
+// This will display details for food and beverage
+// <Route exact path="/fnbs/:id" component={Detail} />
+
+// This will display details for diary entries
+// <Route exact path="/entries/:id" component={Detail} />
+
+// This will display user profile and links to their diary and/or tasting notes
+// <Route exact path="/users/:id" component={User} />
+// <Route exact path="/profile" component={Profile} />
+
+// Paths for login and signup
+// <Route exact path='/login' render={(props) => <Auth {...props} action="login" />} />
+// <Route exact path="/signup" render={(props) => <Auth {...props} action="signup" />} />
+
+// Path for search
+// <Route exact path='/search' component={ Search } />
