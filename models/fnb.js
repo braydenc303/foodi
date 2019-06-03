@@ -22,7 +22,7 @@ const fnbSchema = new Schema({
   // Next comes notes which is also a string but is not required.
   notes: { type: String },
   // Date the user had the food. Defaults to the date created.
-  date: { type: Date, default: Date.now },
+  date: { type: Date, default: Date.now() },
   // username associated with record
   username: { type: String, required: true },
   // Last is date with a schemaType of date and we set the default value to Date.now, as this is not something the user will enter, but will simply keep track of when the record was created.
@@ -34,5 +34,5 @@ const fnbSchema = new Schema({
 
 // Note: The .model() function makes a copy of schema. Make sure that you've added everything you want to schema, including hooks, before calling .model()!
 const Fnb = mongoose.model("Fnb", fnbSchema);
-// Finally we export the food model for use by our other files.
+// Finally we export the fnb model for use by our other files.
 module.exports = Fnb;

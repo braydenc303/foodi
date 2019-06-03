@@ -13,6 +13,17 @@ export function Input(props) {
   );
 }
 
+// Here we create a Date field that will take in props as well as pass the props on to any children
+// The ...props means, spread all of the passed props onto this element
+// That way we don't have to define them all individually
+export function DatePicker(props) {
+  return (
+    <div className="form-group">
+      <input type="date" className="form-control" {...props} />
+    </div>
+  )
+}
+
 // Here we create an text field that will take in props as well as pass the props on to any children
 // The ...props means, spread all of the passed props onto this element
 // That way we don't have to define them all individually
