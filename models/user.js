@@ -28,20 +28,7 @@ const usersSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now()
-    },
-    // hoping the food and drink can be deleted and handles by the fnb
-    foodArray: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Food"
-      }
-    ],    
-    drinkArray: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Drink"
-      }
-    ],    
+    },  
     fnbArray: [
       {
         type: Schema.Types.ObjectId,

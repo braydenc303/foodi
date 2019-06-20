@@ -24,16 +24,16 @@ app.use(express.json());
 // The following are all lines needed for the auth middleware
 
 // Define middleware here
-// app.use(flash());
-// app.use(express.static("public"));
-// app.use(session({
-//   secret: "keyboard cat",
-//   resave: false,
-//   saveUninitialize: true,
-//   // cookie: {secure: true}
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(flash());
+app.use(express.static("public"));
+app.use(session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialize: true,
+  // cookie: {secure: true}
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Serve up static assets (usually on heroku)

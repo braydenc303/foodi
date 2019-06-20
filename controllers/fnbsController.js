@@ -29,6 +29,7 @@ module.exports = {
   // Creates a record
   create: function(req, res) {
     // in the fnbs collections
+    console.log(req.body);
     db.Fnb
     // built from the data submitted to the body of the request
       .create(req.body)

@@ -6,9 +6,14 @@ import React from "react";
 // The <Switch> is not required for grouping <Route>s, but it can be quite useful. A <Switch> will iterate over all of its children <Route> elements and only render the first one that matches the current location. This helps when multiple route’s paths match the same pathname, when animating transitions between routes, and in identifying when no routes match the current location (so that you can render a “404” component).
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import in the books page
-import Books from "./pages/Books";
-
+import Auth from "./pages/Auth";
+import Landing from "./pages/Landing";
+//import in the fnbs page
 import Fnbs from "./pages/Fnbs"
+//import in the entries page
+import Entries from "./pages/Entries";
+//import in the individual entry page
+import Entry from "./pages/Entry";
 // import in the detail page
 import Detail from "./pages/Detail";
 // import in the NoMatch page
@@ -30,9 +35,14 @@ function App() {
       <div>
         <Nav />
         <Switch>
-          <Route exact path="/" component={Fnbs} />
-          <Route exact path="/books" component={Books} />
-          <Route exact path="/books/:id" component={Detail} />
+          <Route exact path="/" component={Auth}/>
+          <Route exact path="/landing" component={Landing} />
+          <Route exact path='/login' render={(props) => <Auth {...props} action="login" />} />
+          <Route exact path="/signup" render={(props) => <Auth {...props} action="signup" />} />
+          <Route exact path="/fnbs" component={Fnbs} />
+          <Route exact path="/fnbs/:id" component={Detail} />
+          <Route exact path="/entries" component={Entries} />
+          <Route exact path="/entries/:id" component={Entry} />
           <Route component={NoMatch} />
         </Switch>
       </div>
@@ -43,12 +53,6 @@ function App() {
 export default App;
 
 // The following lines will be added to the switch once the components are complete
-
-// This will display details for food and beverage
-// <Route exact path="/fnbs/:id" component={Detail} />
-
-// This will display details for diary entries
-// <Route exact path="/entries/:id" component={Detail} />
 
 // This will display user profile and links to their diary and/or tasting notes
 // <Route exact path="/users/:id" component={User} />
