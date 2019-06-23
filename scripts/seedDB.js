@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 // This gives the seed file access to the models needed to build out our database.
 const db = require("../models");
 
+const moment = require("moment");
+
 // This file empties the Books collection and inserts the books below
 
 // This tells our app how to connect to the database depending on if we are running on a deployed or a local server.
@@ -29,7 +31,7 @@ const fnbSeed = [
   // Next comes notes which is also a string but is not required.
   notes: "One of my favorite, easy to drink Scotch Whiskeys.",
   // Date the user had the food. Defaults to the date created.
-  date: new Date(Date.now()),
+  date: moment().format("MMM DD, YYYY"),
   // username associated with record
   username: "Brayden",
   // Last is date with a schemaType of date and we set the default value to Date.now, as this is not something the user will enter, but will simply keep track of when the record was created.
@@ -49,9 +51,9 @@ const fnbSeed = [
     // Location is where the user had the food or drink.
     location: "Whole Foods Market",
     // Next comes notes which is also a string but is not required.
-    notes: "Tastes like a yeast infection. :(",
+    notes: "Tastes... unpleasant. :(",
     // Date the user had the food. Defaults to the date created.
-    date: new Date(Date.now()),
+    date: moment().format("MMM DD, YYYY"),
     // username associated with record
     username: "Brayden",
     // Last is date with a schemaType of date and we set the default value to Date.now, as this is not something the user will enter, but will simply keep track of when the record was created.

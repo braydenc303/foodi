@@ -19,8 +19,6 @@ module.exports = {
             .populate("fnbArray")
             .poplulate("entryArray")
             .then(dbModel => {
-
-                
                 console.log("usercontroller");
                 console.log(dbModel);
                 res.json(dbModel);

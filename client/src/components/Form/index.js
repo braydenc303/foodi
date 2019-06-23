@@ -44,3 +44,11 @@ export function FormBtn(props) {
     </button>
   );
 }
+
+export function Time(props) {
+  return (
+    <div className="form-group">
+      <input type="time" className="form-control" {...props} />
+    </div>
+  )
+}

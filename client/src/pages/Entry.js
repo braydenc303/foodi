@@ -9,19 +9,20 @@ import Jumbotron from "../components/Jumbotron";
 // Gives us the ability to make axios calls to our api routes.
 import API from "../utils/API";
 
+import moment from "moment";
 // A React Component written with a JavaScript class comes with methods like the class constructor – which is primarily used in React to set initial state or to bind methods – and the mandatory render method to return JSX as output. All the internal React Component logic comes from the extends React.Component via object-oriented inheritance that is used in the class component.  https://www.robinwieruch.de/react-component-types/#react-class-components
-class Detail extends Component {
+class Entry extends Component {
   // Here we set our initial state to an empty object that will then be filled in with the information we get back from an axios call to our database for a particular book as soon as this component mounts.
   state = {
-    fnb: {}
+    entry: {}
   };
   // Code to get the book with an _id equal to the id in the route param
   // e.g. http://localhost:3000/books/:id
   componentDidMount() {
-  // The book id for this route can be accessed using this.props.match.params.id
-  API.getFnb(this.props.match.params.id)
+  // The entry id for this route can be accessed using this.props.match.params.id
+  API.getEntry(this.props.match.params.id)
   // We then set the state stored in book to the response data that we get back
-    .then(res => this.setState({fnb: res.data}))
+    .then(res => this.setState({entry: res.data}))
   // If there is an error, we console.log the error.
     .catch(err => console.log(err))
   }
@@ -33,46 +34,50 @@ class Detail extends Component {
           <Col size="md-12">
             <Jumbotron>
               <h1>
-                {this.state.fnb.name}
+                {this.state.entry.name}
               </h1>
             </Jumbotron>
           </Col>
         </Row>
         <Row>
           <Col size="md-4">
-            <h4>Category</h4>
-            <pre>{this.state.fnb.category}</pre>
+            <h4>Date</h4>
+            <pre>{moment(this.state.entry.date).format("MMM DD, YYYY")}</pre>
           </Col>
           <Col size="md-4">
-            <h4>Style</h4>
-            <pre>{this.state.fnb.style}</pre>
+            <h4>Ingredients</h4>
+            <pre>{this.state.entry.ingredients}</pre>
           </Col>
           <Col size="md-4">
-            <h4>Maker</h4>
-            <pre>{this.state.fnb.maker}</pre>
+            <h4>Symptoms</h4>
+            <pre>{this.state.entry.symptoms}</pre>
           </Col>
         </Row>
         <Row>
           <Col size="md-4">
-            <h4>Origin</h4>
-            <pre>{this.state.fnb.origin}</pre>
+            <h4>Time symptoms began</h4>
+            <pre>{moment(this.state.entry.time).format("MMM DD, YYYY HH:mm a")}</pre>
           </Col>
           <Col size="md-4">
-            <h4>Location</h4>
-            <pre>{this.state.fnb.location}</pre>
+            <h4>Time symptoms ceased</h4>
+            <pre>{moment(this.state.entry.duration).format("MMM DD, YYYY HH:mm a")}</pre>
+          </Col>
+          <Col size="md-4">
+            <h4>Severity</h4>
+            <pre>{this.state.entry.severity}</pre>
           </Col>
         </Row>
         <Row>
           <Col size="md-10 md-offset-1">
             <article>
-              <h1>Notes</h1>
-              <pre>{this.state.fnb.notes}</pre>
+              <h1>Symptom Specifics</h1>
+              <pre>{this.state.entry.specificSymptoms}</pre>
             </article>
           </Col>
         </Row>
         <Row>
           <Col size="md-2">
-            <Link to="/fnbs">← Back to List</Link>
+            <Link to="/entries">← Back to List</Link>
           </Col>
         </Row>
       </Container>
@@ -80,4 +85,4 @@ class Detail extends Component {
   }
 }
 // We then must export the Detail page to make it available to be used in App.js
-export default Detail;
+export default Entry;

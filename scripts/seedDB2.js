@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 // This gives the seed file access to the models needed to build out our database.
 const db = require("../models");
 
+const moment = require("moment");
+
 // This file empties the Books collection and inserts the books below
 
 // This tells our app how to connect to the database depending on if we are running on a deployed or a local server.
@@ -15,7 +17,7 @@ mongoose.connect(
 const entrySeed = [
   {
     // The first key in our schema is the date/time the user ate. Defaults to the date created.
-    date: new Date(Date.now()),
+    date: moment().format("MMM DD, YYYY"),
     //  Next is the name of the food/drink, it has a schemaType of string and it is a required value.
     name: "Popcorn",
     // Next are the ingredients if known else enter n/a
@@ -23,9 +25,9 @@ const entrySeed = [
     // This is followed by symptoms physical/mental if any. Default is none. Perhaps make this a radio button that allows the user to choose more than one.
     symptoms: "Physical",
     // The next key if there were symptoms would be an estimate of the time the symptoms began after eating.
-    time: new Date(Date.now()),
+    time: "Aug 19, 2017 7:00 PM",
     // Next is the duration the symptoms lasted.
-    duration: "",
+    duration: "Aug 20, 2017 8:00 AM",
     // The specific symptoms if any
     specificSymptoms: "Abdominal swelling, discomfort",
     // Next comes severity on a scale of 1-10. This can be another radio button.

@@ -1,3 +1,7 @@
+// Todos
+// Get rid of console.logs 
+// Make sure to get rid of hard coded username when login has been implemented.
+
 // gives us access to react functionality and the ability to create a stateful component.
 import React, { Component } from "react";
 // The next two lines import the delete button and Jumbotron components to be used on the page
@@ -29,31 +33,31 @@ class Fnbs extends Component {
   };
   // This calls the following loadfnbs function as soon as this component mounts.
   componentDidMount() {
-    this.loadfnbs();
+    this.loadFnbs();
   }
   // Code to get all of the fnbs information from the database so that we can then display them as a list.
-  loadfnbs = () => {
+  loadFnbs = () => {
     // Here we use our API to make an axios call to the database to get all fnbs.
     API.getFnbs()
     // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
       .then(res =>
-        this.setState({ fnbs: res.data, name: "", category: "", style: "", maker: "", origin: "", location: "", notes: "", date: Date.now(), username: "" })
+        this.setState({ fnbs: res.data, name: "", category: "", style: "", maker: "", origin: "", location: "", notes: "", date: Date.now(), username: "Brayden" })
       )
       // If there is an error, we console.log it.
       .catch(err => console.log(err));
   };
   // Here we create a method which will delete a fnb with a given id.
-  deletefnb = id => {
+  deleteFnb = id => {
     // We make an API call to delete fnb passing in the id associated with the button
-    API.deletefnb(id)
+    API.deleteFnb(id)
     // When we get a successful response back, we call our loadfnbs method to reload the fnbs in the database to the page again in order to reflect the current collection of fnbs.
-      .then(res => this.loadfnbs())
+      .then(res => this.loadFnbs())
       // If there is an error, we console.log it. This of course could be handled better.
       .catch(err => console.log(err));
   };
   // Here we write a method to update state anytime an input in one of the form fields changes. Each input change is an event that we must pass into this method.
   handleInputChange = event => {
-    console.log(event.target);
+    // console.log(event.target);
     // event.target gives us access to the name and value attributes of the field that changed. We then set those variables and use them to update state in order to reflect the change.
     const { name, value } = event.target;
     this.setState({
@@ -79,7 +83,7 @@ class Fnbs extends Component {
         username: this.state.username
       })
       // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
-        .then(res => this.loadfnbs())
+        .then(res => this.loadFnbs())
         // If there is an error, we console.log it.
         .catch(err => console.log(err));
     }
@@ -92,7 +96,7 @@ render() {
         <Row>
           <Col size="md-6">
             <Jumbotron>
-              <h1>What Should I Have?</h1>
+              <h1>Enter Tasting Notes</h1>
             </Jumbotron>
             <form>
               <Input
@@ -153,7 +157,7 @@ render() {
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
-              <h1>On My List</h1>
+              <h1>My List</h1>
             </Jumbotron>
             {this.state.fnbs.length ? (
               <List>
@@ -164,7 +168,7 @@ render() {
                         {fnb.name} ({fnb.category})
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => this.deletefnb(fnb._id)} />
+                    <DeleteBtn onClick={() => this.deleteFnb(fnb._id)} />
                   </ListItem>
                 ))}
               </List>
