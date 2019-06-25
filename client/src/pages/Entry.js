@@ -17,7 +17,7 @@ class Entry extends Component {
     entry: {}
   };
   // Code to get the book with an _id equal to the id in the route param
-  // e.g. http://localhost:3000/books/:id
+  // e.g. http://localhost:3000/entries/:id
   componentDidMount() {
   // The entry id for this route can be accessed using this.props.match.params.id
   API.getEntry(this.props.match.params.id)

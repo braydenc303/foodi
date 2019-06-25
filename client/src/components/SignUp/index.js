@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 class SignUp extends Component {
     // Begin setting state and assume all inputs are not valid
     state = {
-        validUsername: "false",
-        validPassword: "false",
-        confirmPassword: "false"
+        validUsername: false,
+        validPassword: false,
+        confirmPassword: false
     }
     // With each update of a value in the form, check to see if they are valid
     componentDidUpdate() {
@@ -16,17 +16,18 @@ class SignUp extends Component {
         this.confirmPassword();
         this.validateUsername();
     }
+    
     validateUsername() {
         // If the username is more than one character, and the current state of validUsername is false, set it to true
-        if(this.props.username.length > 1 && this.state.validUsername === "false") {
+        if(this.props.username.length > 1 && !this.state.validUsername) {
             this.setState({
-                validUsername: "true"
+                validUsername: true
             });
         }
         // If the username is less that 1 and the current state of valid username is true, set it to false.
-        if(this.props.username.length < 1 && this.state.validUsername === "true") {
+        if(this.props.username.length < 1 && this.state.validUsername) {
             this.setState({
-                validUsername: "false"
+                validUsername: false
             });
         }
     }
@@ -36,25 +37,25 @@ class SignUp extends Component {
         let valid = strongPassword.test(this.props.password);
         if (!this.state.validPassword && valid) {
             this.setState({
-                validPassword: "true"
+                validPassword: true
             });
         }
         if (this.state.validPassword && !valid) {
             this.setState({
-                validPassword: "false",
+                validPassword: false,
             });
         }
     }
 
     confirmPassword() {
-        if(this.props.password === this.props.confirmPassword === "true" && this.state.confirmPassword === "false" && this.props.password) {
+        if(this.props.password === this.props.confirmPassword && !this.state.confirmPassword  && this.props.password) {
             this.setState({
-                confirmPassword: "true"
+                confirmPassword: true
             });
         }
         if (this.props.password !== this.props.confirmPassword && this.state.confirmPassword) {
             this.setState({
-                confirmPassword: "false"
+                confirmPassword: false
             });
         }
     }
@@ -86,7 +87,7 @@ class SignUp extends Component {
                     </p>
 
                                         {/* if all fields are valid, allow the user to submit the form */}
-                                        {(this.state.validUsername === "true" && this.state.validPassword === "true" && this.state.confirmPassword === "true") ? (
+                                        {(this.state.validUsername && this.state.validPassword && this.state.confirmPassword) ? (
                         <FormBtn onClick={this.props.handleSignup} color="success" >Signup</FormBtn>
                     ) : (
                         <FormBtn onClick={this.props.handleSignup} color="danger"  disabled>Signup</FormBtn>

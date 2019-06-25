@@ -7,10 +7,10 @@ function Nav() {
       <a className="navbar-brand" href="/">
         foodi:
       </a>
-      <a className="navbar-brand" href="/fnbs">
+      <a className="navbar-brand" href="/users/userFnbs">
         Tasting Notes
       </a>
-      <a className="navbar-brand" href="/entries">
+      <a className="navbar-brand" href="/users/userEntries">
         Food Diary
       </a>
       <a className="navbar-brand" href="/signup">Login</a> 

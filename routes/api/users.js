@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("../../config/passport");
 const db = require("../../models");
 const authMiddleware = require ("../../config/middleware/authMiddleware");
-const userController = require ("../../controllers/usersController");
+const usersController = require ("../../controllers/usersController");
 
 // /api/users/login
 // route to login the user
@@ -81,26 +81,17 @@ router.get("/admin", authMiddleware.isAdmin, function(req, res, next) {
     });
 });
 
+// /api/users/userEntries
 router.route("/userEntries/:id")
-  .get(userController.findById)
-  .put(userController.update)
-  .delete(userController.remove);    
+  .get(usersController.findById)
+  .put(usersController.update)
+  .delete(usersController.remove);    
 
+  // /api/users/userFnbs
 router.route("/userFnbs/:id")
-  .get(userController.findById)
-  .put(userController.update)
-  .delete(userController.remove);
+  .get(usersController.findById)
+  .put(usersController.update)
+  .delete(usersController.remove);
 
-// I think the following two sections will not be needed if Fnbs works the way that I want it to.
-
-router.route("/userFoods/:id")
-  .get(userController.findById)
-  .put(userController.update)
-  .delete(userController.remove);
-
-router.route("/userDrinks/:id")
-  .get(userController.findById)
-  .put(userController.update)
-  .delete(userController.remove);
 
 module.exports = router;
