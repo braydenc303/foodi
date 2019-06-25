@@ -3,7 +3,5 @@ module.exports = {
   Entry: require("./entry"),
   // Hopefully Fnb will handle both food and drink
   Fnb: require("./fnb"),
-  Drink: require("./drink"),
-  Food: require("./food"),
   User: require("./user")
 };

@@ -57,6 +57,22 @@ export default {
     isLoggedIn: function() {
         return axios.get("/api/users/profile");
     },
+    // populates the user with their Tasting Notes
+    getUserFnbs: function(id) {
+        return axios.get(`/api/users/userFnbs/${id}`);
+    },
+
+    updateUserFnbs: function(id) {
+      return axios.get(`/api/users/userFnbs/${id}`);
+    },
+    // populates the user with their Diary Entries
+    getUserEntries: function(id) {
+      return axios.get(`/api/users/userEntries/${id}`);
+    },
+
+    updateUserEntries: function(id) {
+      return axios.get(`/api/users/userEntries/${id}`);
+    },
 
     //checks to see if the user is logged in and andmin, then returns the user
     //I think this may need to be changed to /api/users/admin

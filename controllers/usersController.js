@@ -17,9 +17,9 @@ module.exports = {
             .findById(req.params.id)
             // Here we need to populate the user with their associated collections/records
             .populate("fnbArray")
-            .poplulate("entryArray")
+            .populate("entryArray")
             .then(dbModel => {
-                console.log("usercontroller");
+                console.log("userscontroller");
                 console.log(dbModel);
                 res.json(dbModel);
             })
@@ -34,6 +34,7 @@ module.exports = {
     },
     // update a user
     update: function(req, res) {
+        console.log("updating", req.body);
         db.User
             .findOneAndUpdate({ _id: req.params.id}, req.body)
             .then(dbModel => res.json(dbModel))

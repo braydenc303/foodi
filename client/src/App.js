@@ -7,6 +7,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import in the books page
 import Auth from "./pages/Auth";
+import Profile from "./pages/Profile"
 import Landing from "./pages/Landing";
 //import in the fnbs page
 import Fnbs from "./pages/Fnbs"
@@ -39,10 +40,11 @@ function App() {
           <Route exact path="/landing" component={Landing} />
           <Route exact path='/login' render={(props) => <Auth {...props} action="login" />} />
           <Route exact path="/signup" render={(props) => <Auth {...props} action="signup" />} />
-          <Route exact path="/fnbs" component={Fnbs} />
-          <Route exact path="/fnbs/:id" component={Detail} />
-          <Route exact path="/entries" component={Entries} />
-          <Route exact path="/entries/:id" component={Entry} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/users/userFnbs" component={Fnbs} />
+          <Route exact path="/users/userFnbs/:id" component={Detail} />
+          <Route exact path="/users/userEntries" component={Entries} />
+          <Route exact path="/users/userEntries/:id" component={Entry} />
           <Route component={NoMatch} />
         </Switch>
       </div>
