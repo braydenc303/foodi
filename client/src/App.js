@@ -36,8 +36,8 @@ function App() {
       <div>
         <Nav />
         <Switch>
-          <Route exact path="/" component={Auth}/>
-          <Route exact path="/landing" component={Landing} />
+          <Route exact path="/" render={(props) => <Auth {...props} action="login" />} />
+          <Route exact path="/landing" render={(props) => <Landing {...props} />} />
           <Route exact path='/login' render={(props) => <Auth {...props} action="login" />} />
           <Route exact path="/signup" render={(props) => <Auth {...props} action="signup" />} />
           <Route exact path="/profile" component={Profile} />

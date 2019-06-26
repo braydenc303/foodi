@@ -53,7 +53,7 @@ class Auth extends Component {
                         username: "",
                         password: ""
                     })
-                    window.location.href = '/profile';
+                    window.location.href = '/landing';
                 }
                 else if (user.data.message) {
                     this.setState({

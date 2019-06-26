@@ -9,22 +9,108 @@ import Jumbotron from "../components/Jumbotron";
 import { Link } from "react-router-dom";
 // uses object deconstruction to grab the enclosed components from our Grid, List, and Form components files as there are more than one export from each of them.
 import { Col, Row, Container } from "../components/Grid";
+// import API to allow a check to see if a user is logged in.
+import API from "../utils/API";
 
 class Landing extends Component {
-    render () {
-        return (
-        <Container fluid>
+  state = {
+    loggedIn: false,
+    user: null,
+    loading: true
+  };
+
+  componentDidMount() {
+    this.loading();
+
+    API.isLoggedIn()
+      .then(user => {
+        if (user.data.loggedIn) {
+          this.setState(
+            {
+              loggedIn: true,
+              user: user.data.user
+            },
+            () => {
+              API.getUserFnbs(this.state.user._id)
+                .then(res =>
+                  this.setState({
+                    user: res.data
+                  })
+                )
+                .catch(err => console.log(err));
+              API.getUserEntries(this.state.user._id).then(res =>
+                this.setState({
+                  user: res.data
+                })
+              );
+            }
+          );
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // console.log(this.props)
+  }
+
+  loading() {
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 1000);
+  }
+
+  render() {
+    return (
+      <div className="landingPage">
+        {this.state.loggedIn ? (
+          <Container fluid>
             <Row>
-                <Col size="md-6">
-                    <Link to="/fnbs"><Jumbotron><h1>Tasting Notes</h1></Jumbotron></Link>
-                </Col>
-                <Col size="md-6">
-                    <Link to="/entries"><Jumbotron><h1>Food Diary</h1></Jumbotron></Link>
-                </Col>
+              <Col size="md-9">
+                <h1>
+                  Welcome {this.state.user.username}! What would you like to
+                  work on today?
+                </h1>
+              </Col>
             </Row>
-        </Container>
+            <Row>
+              <Col size="md-6">
+                <Link to="/fnbs">
+                  <Jumbotron>
+                    <h2>Tasting Notes</h2>
+                  </Jumbotron>
+                </Link>
+              </Col>
+              <Col size="md-6">
+                <Link to="/entries">
+                  <Jumbotron>
+                    <h2>Food Diary</h2>
+                  </Jumbotron>
+                </Link>
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <div className="noUser">
+            {!this.state.loading ? (
+              <>
+                <h1>PLEASE LOG IN</h1>
+                <Link className="loginLink" to="/login">
+                  <button className="loginBtn" color="info">
+                    Login
+                  </button>
+                </Link>
+              </>
+            ) : (
+              <p>Loading</p>
+            )}
+          </div>
+        )}
+      </div>
     );
   }
-};
+}
 
 export default Landing;
