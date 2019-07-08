@@ -13,7 +13,7 @@ function Nav() {
       <a className="navbar-brand" href="/users/userEntries">
         Food Diary
       </a>
-      <a className="navbar-brand" href="/signup">Login</a> 
+      <a className="navbar-brand" href="/login">Login</a> 
     </nav>
   );
 }

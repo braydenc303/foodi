@@ -4,6 +4,7 @@ import { Container } from '../Grid'
 import { Link } from "react-router-dom";
 
 class SignUp extends Component {
+ 
     // Begin setting state and assume all inputs are not valid
     state = {
         validUsername: false,
@@ -15,6 +16,7 @@ class SignUp extends Component {
         this.validatePassword();
         this.confirmPassword();
         this.validateUsername();
+        console.log(this.props);
     }
     
     validateUsername() {

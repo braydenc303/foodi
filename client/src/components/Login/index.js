@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 function Login(props) {
-
+    console.log(props);
 
     return (
         <Container>
@@ -13,7 +13,7 @@ function Login(props) {
                 <h2 className="loginTitle title-font">Login</h2>
                 <hr/>
                 {props.message ? (
-                    <div class="alert alert-primary" role="alert">Please Sign In</div>
+                    <div className="alert alert-primary" role="alert">Please Sign In</div>
                 ) : (<></>)}
 
                 {props.loggedIn ? (

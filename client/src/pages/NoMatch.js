@@ -20,6 +20,7 @@ function NoMatch() {
                 🙄
               </span>
             </h1>
+            <a href="/landing">Return to home</a>
           </Jumbotron>
         </Col>
       </Row>
