@@ -22,7 +22,7 @@ const Landing = props => {
             <Row>
               <Col size="md-9">
                 <h1>
-                  Welcome {props.user.user.username}! What would you like to
+                  Welcome {props.username}! What would you like to
                   work on today?
                 </h1>
               </Col>

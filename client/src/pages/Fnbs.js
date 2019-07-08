@@ -29,19 +29,17 @@ class Fnbs extends Component {
     location: "",
     notes: "",
     date: Date.now(),
-    username: ""
+    username: this.props.username
   };
   // This calls the following loadfnbs function as soon as this component mounts.
   componentDidMount() {
     this.loadFnbs();
-    this.setState({
-      username: this.props.username
-    });
   }
   // Code to get all of the fnbs information from the database so that we can then display them as a list.
   loadFnbs = () => {
+    console.log(this.props)
     // Here we use our API to make an axios call to the database to get all fnbs.
-    API.getFnbs()
+    API.getUserFnbs(this.props.userID)
       // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
       .then(res =>
         this.setState({
@@ -54,7 +52,7 @@ class Fnbs extends Component {
           location: "",
           notes: "",
           date: Date.now(),
-          username: this.props.user.user.username
+          username: this.props.username
         })
       )
       // If there is an error, we console.log it.
@@ -94,7 +92,7 @@ class Fnbs extends Component {
         location: this.state.location,
         notes: this.state.notes,
         date: this.state.date,
-        username: this.props.user.user.username
+        username: this.props.username
       })
         // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
         .then(res => this.loadFnbs())
