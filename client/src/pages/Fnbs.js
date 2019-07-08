@@ -1,5 +1,5 @@
 // Todos
-// Get rid of console.logs 
+// Get rid of console.logs
 // Make sure to get rid of hard coded username when login has been implemented.
 
 // gives us access to react functionality and the ability to create a stateful component.
@@ -29,19 +29,33 @@ class Fnbs extends Component {
     location: "",
     notes: "",
     date: Date.now(),
-    username: "Brayden"
+    username: ""
   };
   // This calls the following loadfnbs function as soon as this component mounts.
   componentDidMount() {
     this.loadFnbs();
+    this.setState({
+      username: this.props.username
+    });
   }
   // Code to get all of the fnbs information from the database so that we can then display them as a list.
   loadFnbs = () => {
     // Here we use our API to make an axios call to the database to get all fnbs.
     API.getFnbs()
-    // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
+      // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
       .then(res =>
-        this.setState({ fnbs: res.data, name: "", category: "", style: "", maker: "", origin: "", location: "", notes: "", date: Date.now(), username: "Brayden" })
+        this.setState({
+          fnbs: res.data,
+          name: "",
+          category: "",
+          style: "",
+          maker: "",
+          origin: "",
+          location: "",
+          notes: "",
+          date: Date.now(),
+          username: this.props.user.user.username
+        })
       )
       // If there is an error, we console.log it.
       .catch(err => console.log(err));
@@ -50,7 +64,7 @@ class Fnbs extends Component {
   deleteFnb = id => {
     // We make an API call to delete fnb passing in the id associated with the button
     API.deleteFnb(id)
-    // When we get a successful response back, we call our loadfnbs method to reload the fnbs in the database to the page again in order to reflect the current collection of fnbs.
+      // When we get a successful response back, we call our loadfnbs method to reload the fnbs in the database to the page again in order to reflect the current collection of fnbs.
       .then(res => this.loadFnbs())
       // If there is an error, we console.log it. This of course could be handled better.
       .catch(err => console.log(err));
@@ -64,7 +78,7 @@ class Fnbs extends Component {
       [name]: value
     });
   };
-// Here we write a method to hand the submission of the form. We pass this method the event.
+  // Here we write a method to hand the submission of the form. We pass this method the event.
   handleFormSubmit = event => {
     // We must prevent the default behavior of the submit button to avoid reloading the page.
     event.preventDefault();
@@ -80,104 +94,126 @@ class Fnbs extends Component {
         location: this.state.location,
         notes: this.state.notes,
         date: this.state.date,
-        username: this.state.username
+        username: this.props.user.user.username
       })
-      // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
+        // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
         .then(res => this.loadFnbs())
         // If there is an error, we console.log it.
         .catch(err => console.log(err));
     }
   };
 
-// The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
-render() {
+  // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
+  render() {
+    console.log(this.props);
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>Enter Tasting Notes</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                placeholder="Name (Required)"
-              />
-              <Input
-                value={this.state.category}
-                onChange={this.handleInputChange}
-                name="category"
-                placeholder="Category (Required)"
-              />
-              <Input
-                value={this.state.style}
-                onChange={this.handleInputChange}
-                name="style"
-                placeholder="Style (Optional)"
-              />
-              <Input
-                value={this.state.maker}
-                onChange={this.handleInputChange}
-                name="maker"
-                placeholder="Maker (Required)"
-              />
-              <Input
-                value={this.state.origin}
-                onChange={this.handleInputChange}
-                name="origin"
-                placeholder="Origin (Optional)"
-              />
-              <Input
-                value={this.state.location}
-                onChange={this.handleInputChange}
-                name="location"
-                placeholder="Location (optional)"
-              />
-              <TextArea
-                value={this.state.notes}
-                onChange={this.handleInputChange}
-                name="notes"
-                placeholder="Notes (Optional)"
-              />
-              <DatePicker
-                value={this.state.date}
-                onChange={this.handleInputChange}
-                name="date"
-                placeholder="Required"
-              />
-              <FormBtn
-                disabled={!(this.state.name && this.state.category && this.state.maker)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Food or Drink
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>My List</h1>
-            </Jumbotron>
-            {this.state.fnbs.length ? (
-              <List>
-                {this.state.fnbs.map(fnb => (
-                  <ListItem key={fnb._id}>
-                    <Link to={"/fnbs/" + fnb._id}>
-                      <strong>
-                        {fnb.name} ({fnb.category})
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteFnb(fnb._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
+      <div className="userFnbs">
+        {this.props.loggedIn ? (
+          <Container fluid>
+            <Row>
+              <Col size="md-6">
+                <Jumbotron>
+                  <h1>Enter Tasting Notes</h1>
+                </Jumbotron>
+                <form>
+                  <Input
+                    value={this.state.name}
+                    onChange={this.handleInputChange}
+                    name="name"
+                    placeholder="Name (Required)"
+                  />
+                  <Input
+                    value={this.state.category}
+                    onChange={this.handleInputChange}
+                    name="category"
+                    placeholder="Category (Required)"
+                  />
+                  <Input
+                    value={this.state.style}
+                    onChange={this.handleInputChange}
+                    name="style"
+                    placeholder="Style (Optional)"
+                  />
+                  <Input
+                    value={this.state.maker}
+                    onChange={this.handleInputChange}
+                    name="maker"
+                    placeholder="Maker (Required)"
+                  />
+                  <Input
+                    value={this.state.origin}
+                    onChange={this.handleInputChange}
+                    name="origin"
+                    placeholder="Origin (Optional)"
+                  />
+                  <Input
+                    value={this.state.location}
+                    onChange={this.handleInputChange}
+                    name="location"
+                    placeholder="Location (optional)"
+                  />
+                  <TextArea
+                    value={this.state.notes}
+                    onChange={this.handleInputChange}
+                    name="notes"
+                    placeholder="Notes (Optional)"
+                  />
+                  <DatePicker
+                    value={this.state.date}
+                    onChange={this.handleInputChange}
+                    name="date"
+                    placeholder="Required"
+                  />
+                  <FormBtn
+                    disabled={
+                      !(
+                        this.state.name &&
+                        this.state.category &&
+                        this.state.maker
+                      )
+                    }
+                    onClick={this.handleFormSubmit}
+                  >
+                    Submit Food or Drink
+                  </FormBtn>
+                </form>
+              </Col>
+              <Col size="md-6 sm-12">
+                <Jumbotron>
+                  <h1>My List</h1>
+                </Jumbotron>
+                {this.state.fnbs.length ? (
+                  <List>
+                    {this.state.fnbs.map(fnb => (
+                      <ListItem key={fnb._id}>
+                        <Link to={"/fnbs/" + fnb._id}>
+                          <strong>
+                            {fnb.name} ({fnb.category})
+                          </strong>
+                        </Link>
+                        <DeleteBtn onClick={() => this.deleteFnb(fnb._id)} />
+                      </ListItem>
+                    ))}
+                  </List>
+                ) : (
+                  <h3>No Results to Display</h3>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <div className="noUser">
+            <>
+              <h1>PLEASE LOG IN</h1>
+              <Link className="loginLink" to="/login">
+                <button className="loginBtn" color="info">
+                  Login
+                </button>
+              </Link>
+            </>
+          </div>
+        )}
+      </div>
     );
   }
 }

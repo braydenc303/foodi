@@ -12,65 +12,17 @@ import { Col, Row, Container } from "../components/Grid";
 // import API to allow a check to see if a user is logged in.
 import API from "../utils/API";
 
-class Landing extends Component {
-  state = {
-    loggedIn: false,
-    user: null,
-    loading: true
-  };
+const Landing = props => {
+  console.log(props);
 
-  componentDidMount() {
-    this.loading();
-
-    API.isLoggedIn()
-      .then(user => {
-        if (user.data.loggedIn) {
-          this.setState(
-            {
-              loggedIn: true,
-              user: user.data.user
-            },
-            () => {
-              API.getUserFnbs(this.state.user._id)
-                .then(res =>
-                  this.setState({
-                    user: res.data
-                  })
-                )
-                .catch(err => console.log(err));
-              API.getUserEntries(this.state.user._id).then(res =>
-                this.setState({
-                  user: res.data
-                })
-              );
-            }
-          );
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    // console.log(this.props)
-  }
-
-  loading() {
-    setTimeout(() => {
-      this.setState({
-        loading: false
-      });
-    }, 1000);
-  }
-
-  render() {
     return (
-      <div className="landingPage">
-        {this.state.loggedIn ? (
+        <div className="landingPage">
+            {props.loggedIn ? (
           <Container fluid>
             <Row>
               <Col size="md-9">
                 <h1>
-                  Welcome {this.state.user.username}! What would you like to
+                  Welcome {props.user.user.username}! What would you like to
                   work on today?
                 </h1>
               </Col>
@@ -94,7 +46,7 @@ class Landing extends Component {
           </Container>
         ) : (
           <div className="noUser">
-            {!this.state.loading ? (
+          
               <>
                 <h1>PLEASE LOG IN</h1>
                 <Link className="loginLink" to="/login">
@@ -103,14 +55,12 @@ class Landing extends Component {
                   </button>
                 </Link>
               </>
-            ) : (
-              <p>Loading</p>
-            )}
+         
           </div>
         )}
       </div>
     );
   }
-}
+
 
 export default Landing;
