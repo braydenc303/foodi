@@ -37,6 +37,7 @@ export default {
     },
     // Saves aa entry to the database
     saveEntry: function(entryData) {
+      console.log(entryData);
       return axios.post("/api/entries", entryData);
     },
     // Updates the entry with the corresponding id in the database

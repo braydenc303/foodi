@@ -29,19 +29,46 @@ class Fnbs extends Component {
     location: "",
     notes: "",
     date: Date.now(),
-    username: ""
+    userID: this.props.userID
   };
   // This calls the following loadfnbs function as soon as this component mounts.
   componentDidMount() {
-    this.loadFnbs();
-    this.setState({
-      username: this.props.username
+    console.log("hello");
+    // this.loading();
+
+    API.isLoggedIn().then(user => {
+        if (user.data.loggedIn) {
+            this.setState({
+                loggedIn: true,
+                user: user.data.user
+            }, () =>{
+                API.getUserFnbs(this.state.user._id).then(
+                    res => this.setState({
+                        user: res.data
+                    })
+                ).catch(err => console.log(err))
+            });
+        }
+        console.log(this.state.user);
+    }).catch(err => {
+        console.log(err);
     });
-  }
+
+    // console.log(this.props)
+}
+
+loading() {
+    setTimeout(()=> {
+        this.setState({
+            loading: false
+        })
+    }, 1000)  
+}
   // Code to get all of the fnbs information from the database so that we can then display them as a list.
   loadFnbs = () => {
+    console.log(this.props)
     // Here we use our API to make an axios call to the database to get all fnbs.
-    API.getFnbs()
+    API.getUserFnbs(this.props.userID)
       // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
       .then(res =>
         this.setState({
@@ -54,7 +81,7 @@ class Fnbs extends Component {
           location: "",
           notes: "",
           date: Date.now(),
-          username: this.props.user.user.username
+          userID: this.props.userID
         })
       )
       // If there is an error, we console.log it.
@@ -94,7 +121,7 @@ class Fnbs extends Component {
         location: this.state.location,
         notes: this.state.notes,
         date: this.state.date,
-        username: this.props.user.user.username
+        userID: this.props.userID
       })
         // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
         .then(res => this.loadFnbs())
@@ -106,6 +133,7 @@ class Fnbs extends Component {
   // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
   render() {
     console.log(this.props);
+    console.log(this.state);
     return (
       <div className="userFnbs">
         {this.props.loggedIn ? (
@@ -182,11 +210,11 @@ class Fnbs extends Component {
                 <Jumbotron>
                   <h1>My List</h1>
                 </Jumbotron>
-                {this.state.fnbs.length ? (
+                {this.state.user && this.state.user.fnbArray.length ? (
                   <List>
-                    {this.state.fnbs.map(fnb => (
+                    {this.state.user.fnbArray.map(fnb => (
                       <ListItem key={fnb._id}>
-                        <Link to={"/fnbs/" + fnb._id}>
+                        <Link to={"/users/userFnbs/" + fnb._id}>
                           <strong>
                             {fnb.name} ({fnb.category})
                           </strong>

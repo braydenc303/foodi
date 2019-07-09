@@ -19,68 +19,90 @@ class Entry extends Component {
   // Code to get the book with an _id equal to the id in the route param
   // e.g. http://localhost:3000/entries/:id
   componentDidMount() {
-  // The entry id for this route can be accessed using this.props.match.params.id
-  API.getEntry(this.props.match.params.id)
-  // We then set the state stored in book to the response data that we get back
-    .then(res => this.setState({entry: res.data}))
-  // If there is an error, we console.log the error.
-    .catch(err => console.log(err))
+    // The entry id for this route can be accessed using this.props.match.params.id
+    API.getEntry(this.props.match.params.id)
+      // We then set the state stored in book to the response data that we get back
+      .then(res => this.setState({ entry: res.data }))
+      // If there is an error, we console.log the error.
+      .catch(err => console.log(err));
   }
-// The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. We then create an h1 tag with the book title and author that we have stored in state, followed by an article tag that contains a paragraph with the book synopsis. That is finally followed by a link back to the home page.
+  // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. We then create an h1 tag with the book title and author that we have stored in state, followed by an article tag that contains a paragraph with the book synopsis. That is finally followed by a link back to the home page.
   render() {
+    console.log(this.props);
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-12">
-            <Jumbotron>
-              <h1>
-                {this.state.entry.name}
-              </h1>
-            </Jumbotron>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-4">
-            <h4>Date</h4>
-            <pre>{moment(this.state.entry.date).format("MMM DD, YYYY")}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Ingredients</h4>
-            <pre>{this.state.entry.ingredients}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Symptoms</h4>
-            <pre>{this.state.entry.symptoms}</pre>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-4">
-            <h4>Time symptoms began</h4>
-            <pre>{moment(this.state.entry.time).format("MMM DD, YYYY HH:mm a")}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Time symptoms ceased</h4>
-            <pre>{moment(this.state.entry.duration).format("MMM DD, YYYY HH:mm a")}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Severity</h4>
-            <pre>{this.state.entry.severity}</pre>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-10 md-offset-1">
-            <article>
-              <h1>Symptom Specifics</h1>
-              <pre>{this.state.entry.specificSymptoms}</pre>
-            </article>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-2">
-            <Link to="/entries">← Back to List</Link>
-          </Col>
-        </Row>
-      </Container>
+      <div className="entryDetails">
+        {this.props.loggedIn ? (
+          <Container fluid>
+            <Row>
+              <Col size="md-12">
+                <Jumbotron>
+                  <h1>{this.state.entry.name}</h1>
+                </Jumbotron>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-4">
+                <h4>Date</h4>
+                <pre>
+                  {moment(this.state.entry.date).format("MMM DD, YYYY")}
+                </pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Ingredients</h4>
+                <pre>{this.state.entry.ingredients}</pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Symptoms</h4>
+                <pre>{this.state.entry.symptoms}</pre>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-4">
+                <h4>Time symptoms began</h4>
+                <pre>
+                  {moment(this.state.entry.time).format("MMM DD, YYYY HH:mm a")}
+                </pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Time symptoms ceased</h4>
+                <pre>
+                  {moment(this.state.entry.duration).format(
+                    "MMM DD, YYYY HH:mm a"
+                  )}
+                </pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Severity</h4>
+                <pre>{this.state.entry.severity}</pre>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-10 md-offset-1">
+                <article>
+                  <h1>Symptom Specifics</h1>
+                  <pre>{this.state.entry.specificSymptoms}</pre>
+                </article>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-2">
+                <Link to="/entries">← Back to List</Link>
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <div className="noUser">
+            <>
+              <h1>PLEASE LOG IN</h1>
+              <Link className="loginLink" to="/login">
+                <button className="loginBtn" color="info">
+                  Login
+                </button>
+              </Link>
+            </>
+          </div>
+        )}
+      </div>
     );
   }
 }

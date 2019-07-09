@@ -23,8 +23,8 @@ const fnbSchema = new Schema({
   notes: { type: String },
   // Date the user had the food. Defaults to the date created.
   date: { type: Date, default: Date.now() },
-  // username associated with record
-  username: { type: String, required: true },
+  // userID associated with record
+  userID: { type: String, required: true },
   // Last is date with a schemaType of date and we set the default value to Date.now, as this is not something the user will enter, but will simply keep track of when the record was created.
   dateCreated: { type: Date, default: Date.now }
 });

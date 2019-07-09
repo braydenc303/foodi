@@ -18,64 +18,77 @@ class Detail extends Component {
   // Code to get the book with an _id equal to the id in the route param
   // e.g. http://localhost:3000/books/:id
   componentDidMount() {
-  // The book id for this route can be accessed using this.props.match.params.id
-  API.getFnb(this.props.match.params.id)
-  // We then set the state stored in book to the response data that we get back
-    .then(res => this.setState({fnb: res.data}))
-  // If there is an error, we console.log the error.
-    .catch(err => console.log(err))
+    // The book id for this route can be accessed using this.props.match.params.id
+    API.getFnb(this.props.match.params.id)
+      // We then set the state stored in book to the response data that we get back
+      .then(res => this.setState({ fnb: res.data }))
+      // If there is an error, we console.log the error.
+      .catch(err => console.log(err));
   }
-// The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. We then create an h1 tag with the book title and author that we have stored in state, followed by an article tag that contains a paragraph with the book synopsis. That is finally followed by a link back to the home page.
+  // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. We then create an h1 tag with the book title and author that we have stored in state, followed by an article tag that contains a paragraph with the book synopsis. That is finally followed by a link back to the home page.
   render() {
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-12">
-            <Jumbotron>
-              <h1>
-                {this.state.fnb.name}
-              </h1>
-            </Jumbotron>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-4">
-            <h4>Category</h4>
-            <pre>{this.state.fnb.category}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Style</h4>
-            <pre>{this.state.fnb.style}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Maker</h4>
-            <pre>{this.state.fnb.maker}</pre>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-4">
-            <h4>Origin</h4>
-            <pre>{this.state.fnb.origin}</pre>
-          </Col>
-          <Col size="md-4">
-            <h4>Location</h4>
-            <pre>{this.state.fnb.location}</pre>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-10 md-offset-1">
-            <article>
-              <h1>Notes</h1>
-              <pre>{this.state.fnb.notes}</pre>
-            </article>
-          </Col>
-        </Row>
-        <Row>
-          <Col size="md-2">
-            <Link to="/fnbs">← Back to List</Link>
-          </Col>
-        </Row>
-      </Container>
+      <div className="fnbDetails">
+        {this.props.loggedIn ? (
+          <Container fluid>
+            <Row>
+              <Col size="md-12">
+                <Jumbotron>
+                  <h1>{this.state.fnb.name}</h1>
+                </Jumbotron>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-4">
+                <h4>Category</h4>
+                <pre>{this.state.fnb.category}</pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Style</h4>
+                <pre>{this.state.fnb.style}</pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Maker</h4>
+                <pre>{this.state.fnb.maker}</pre>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-4">
+                <h4>Origin</h4>
+                <pre>{this.state.fnb.origin}</pre>
+              </Col>
+              <Col size="md-4">
+                <h4>Location</h4>
+                <pre>{this.state.fnb.location}</pre>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-10 md-offset-1">
+                <article>
+                  <h1>Notes</h1>
+                  <pre>{this.state.fnb.notes}</pre>
+                </article>
+              </Col>
+            </Row>
+            <Row>
+              <Col size="md-2">
+                <Link to="/fnbs">← Back to List</Link>
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <div className="noUser">
+            <>
+              <h1>PLEASE LOG IN</h1>
+              <Link className="loginLink" to="/login">
+                <button className="loginBtn" color="info">
+                  Login
+                </button>
+              </Link>
+            </>
+          </div>
+        )}
+      </div>
     );
   }
 }

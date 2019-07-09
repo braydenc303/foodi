@@ -13,15 +13,15 @@ const entrySchema = new Schema({
   // This is followed by symptoms physica/mental if any. Default is none. Perhaps make this a radio button that allows the user to choose more than one.
   symptoms: { type: String, required: true, default: "none" },
   // The next key if there were symptoms would be an estimate of the time the symptoms began after eating.
-  time: { type: Date, required: false },
+  time: { type: String, required: false },
   // Next is the duration the symptoms lasted.
-  duration: { type: Date, required: false },
+  duration: { type: String, required: false },
   // The specific symptoms if any
   specificSymptoms: { type: String, required: false },
   // Next comes severity on a scale of 1-10. This can be another radio button.
   severity: { type: Number },
-  // username associated with record
-  username: { type: String, required: true },
+  // userID associated with record
+  userID: { type: String, required: true },
   // Last is date with a schemaType of date and we set the default value to Date.now, as this is not something the user will enter, but will simply keep track of when the record was created.
   dateCreated: { type: Date, default: Date.now }
 });

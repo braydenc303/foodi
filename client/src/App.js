@@ -31,7 +31,8 @@ class App extends Component {
     password: "",
     confirmPassword: "",
     user: null,
-    message: ""
+    message: "",
+    userID: ""
 }
 
 componentDidMount(){
@@ -40,6 +41,8 @@ componentDidMount(){
             this.setState({
                 loggedIn: true,
                 user: user.data,
+                username: user.data.user.username,
+                userID: user.data.user._id
             })
         }
     })
@@ -66,7 +69,6 @@ handleLogin = event => {
             if(user.data.loggedIn) {
                 this.setState({
                     loggedIn: true,
-                    username: user.data.user,
                     user: user.data.user
                 });
                 console.log(this.state.username);
@@ -202,14 +204,31 @@ handleSignup = event => {
               <Fnbs {...props} 
               username={this.state.username} 
               loggedIn={this.state.loggedIn}
-              user={this.state.user} />} />
+              user={this.state.user}
+              userID={this.state.userID}
+              />} />
 
+            <Route exact path="/users/userFnbs/:id" render={(props) =>
+              <Detail {...props}
+              username={this.state.username}
+              loggedIn={this.state.loggedIn}
+              />} />
+
+            <Route exact path="/users/userEntries" render={(props) => 
+              <Entries {...props}
+              username={this.state.username} 
+              loggedIn={this.state.loggedIn}
+              user={this.state.user}
+              userID={this.state.userID}  
+              />} />
+
+            <Route exact path="/users/userEntries/:id" render={(props) => 
+              <Entry {...props} 
+              username={this.state.username}
+              loggedIn={this.state.loggedIn}
+              />} />
+            
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/users/userFnbs/:id" component={Detail} />
-            <Route exact path="/fnbs/:id" component={Detail} />
-            <Route exact path="/users/userEntries" component={Entries} />
-            <Route exact path="/users/userEntries/:id" component={Entry} />
-            <Route exact path="/entries/:id" component={Entry} />
             <Route component={NoMatch} />
           </Switch>
         </div>

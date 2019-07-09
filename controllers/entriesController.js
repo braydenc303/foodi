@@ -32,6 +32,12 @@ module.exports = {
     db.Entry
     // built from the data submitted to the body of the request
       .create(req.body)
+      // then push the id of the new entry into the fnb array of the user.
+      .then((entry) => {
+        entryID = entry._id
+        console.log("entry id:", entry._id)
+        return db.User.findOneAndUpdate({_id: req.body.userID}, {$push: {entryArray: entry._id}}, {new: true})
+      })
       // then responds with a json object of data built from our model if successful
       .then(dbModel => res.json(dbModel))
       // or catches the error and responds with a 422 if there is a problem.
