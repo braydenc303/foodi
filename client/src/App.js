@@ -208,12 +208,27 @@ handleSignup = event => {
               userID={this.state.userID}
               />} />
 
+            <Route exact path="/users/userFnbs/:id" render={(props) =>
+              <Detail {...props}
+              username={this.state.username}
+              loggedIn={this.state.loggedIn}
+              />} />
+
+            <Route exact path="/users/userEntries" render={(props) => 
+              <Entries {...props}
+              username={this.state.username} 
+              loggedIn={this.state.loggedIn}
+              user={this.state.user}
+              userID={this.state.userID}  
+              />} />
+
+            <Route exact path="/users/userEntries/:id" render={(props) => 
+              <Entry {...props} 
+              username={this.state.username}
+              loggedIn={this.state.loggedIn}
+              />} />
+            
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/users/userFnbs/:id" component={Detail} />
-            <Route exact path="/fnbs/:id" component={Detail} />
-            <Route exact path="/users/userEntries" component={Entries} />
-            <Route exact path="/users/userEntries/:id" component={Entry} />
-            <Route exact path="/entries/:id" component={Entry} />
             <Route component={NoMatch} />
           </Switch>
         </div>

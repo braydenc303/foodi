@@ -31,10 +31,16 @@ module.exports = {
     // in the fnbs collections
     console.log(req.body);
     db.Fnb
-    // built from the data submitted to the body of the request
+    //create an fnb entry built from the data submitted to the body of the request
       .create(req.body)
+      // then push the id of the new entry into the fnb array of the user.
+      .then((fnb) => {
+        fnbID = fnb._id
+        console.log("fnb id:", fnb._id)
+        return db.User.findOneAndUpdate({_id: req.body.userID}, {$push: {fnbArray: fnb._id}}, {new: true})
+      })
       // then responds with a json object of data built from our model if successful
-      .then(dbModel => res.json(dbModel))
+      .then(user => res.json(fnbID))
       // or catches the error and responds with a 422 if there is a problem.
       .catch(err => res.status(422).json(err));
   },

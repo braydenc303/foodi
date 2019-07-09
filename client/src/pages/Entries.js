@@ -1,5 +1,5 @@
 // Todos
-// Get rid of console.logs 
+// Get rid of console.logs
 // Make sure to get rid of hard coded username when login has been implemented.
 // Change symptoms to dropdown with physical, mental, or both as options.
 // Change severity to a slider
@@ -25,7 +25,7 @@ class Entries extends Component {
   // Here we set the initial state of entries to an empty array which will be filled in with the data that we get back from our axios call to the database when the component mounts. The states of title, author, and synopsis will be updated upon user input in the form.
   state = {
     entries: [],
-    date: moment().format("MMM DD, YYYY"),
+    date: Date.now(),
     name: "",
     ingredients: "",
     symptoms: "",
@@ -33,11 +33,47 @@ class Entries extends Component {
     duration: "",
     severity: "",
     specificSymptoms: "",
-    username: "Brayden"
+    userID: this.props.userID
   };
-  // This calls the following loadentries function as soon as this component mounts.
+  // This calls the following loadEntries function as soon as this component mounts.
   componentDidMount() {
-    this.loadEntries();
+    console.log("hello");
+    // this.loading();
+
+    API.isLoggedIn()
+      .then(user => {
+        if (user.data.loggedIn) {
+          this.setState(
+            {
+              loggedIn: true,
+              user: user.data.user
+            },
+            () => {
+              API.getUserEntries(this.state.user._id)
+                .then(res =>
+                  this.setState({
+                    user: res.data
+                  })
+                )
+                .catch(err => console.log(err));
+            }
+          );
+        }
+        console.log(this.state.user);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+    // console.log(this.props)
+  }
+
+  loading() {
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 1000);
   }
   // Code to get all of the entries information from the database so that we can then display them as a list.
   loadEntries = () => {
@@ -45,7 +81,7 @@ class Entries extends Component {
     API.getEntries()
     // When we get the response back we set the state of the entries array by filling it in with objects for each entry with the structure: {title:"", author: "", synopsis: ""}
       .then(res =>
-        this.setState({ entries: res.data, name: "", category: "", style: "", maker: "", origin: "", location: "", notes: "", date: Date.now(), username: "Brayden" })
+        this.setState({ entries: res.data, name: "", category: "", style: "", maker: "", origin: "", location: "", notes: "", date: Date.now(), userID: this.props.userID })
       )
       // If there is an error, we console.log it.
       .catch(err => console.log(err));
@@ -54,7 +90,7 @@ class Entries extends Component {
   deleteEntry = id => {
     // We make an API call to delete entry passing in the id associated with the button
     API.deleteEntry(id)
-    // When we get a successful response back, we call our loadentries method to reload the entries in the database to the page again in order to reflect the current collection of entries.
+      // When we get a successful response back, we call our loadentries method to reload the entries in the database to the page again in order to reflect the current collection of entries.
       .then(res => this.loadEntries())
       // If there is an error, we console.log it. This of course could be handled better.
       .catch(err => console.log(err));
@@ -68,12 +104,12 @@ class Entries extends Component {
       [name]: value
     });
   };
-// Here we write a method to hand the submission of the form. We pass this method the event.
+  // Here we write a method to hand the submission of the form. We pass this method the event.
   handleFormSubmit = event => {
     // We must prevent the default behavior of the submit button to avoid reloading the page.
     event.preventDefault();
     // If a title and an author have been provided
-    if (this.state.name && this.state.category && this.state.maker) {
+    if (this.state.name && this.state.ingredients) {
       // we make an API call to save the entry to the database. If no synopsis is provided, it will simply be stored as an empty string.
       API.saveEntry({
         date: this.state.date,
@@ -82,110 +118,131 @@ class Entries extends Component {
         symptoms: this.state.symptoms,
         time: this.state.time,
         duration: this.state.duration,
-        severity: this.state.severity,
+        severity: parseInt(this.state.severity),
         specificSymptoms: this.state.specificSymptoms,
-        dateCreated: this.state.dateCreated,
-        username: this.state.username
+        userID: this.props.userID
       })
-      // Once we have successfully saved the entry, we call the loadentries method to once again re-render the entries to the page so that our list includes the entry that was just added.
+        // Once we have successfully saved the entry, we call the loadentries method to once again re-render the entries to the page so that our list includes the entry that was just added.
         .then(res => this.loadEntries())
         // If there is an error, we console.log it.
         .catch(err => console.log(err));
     }
   };
 
-// The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
-render() {
+  // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
+  render() {
+    console.log(this.props);
+    console.log(this.state);
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>New Diary Entry</h1>
-            </Jumbotron>
-            <form>
-              <DatePicker
-                value={this.state.date}
-                onChange={this.handleInputChange}
-                name="date"
-                placeholder="Required"
-              />
-              <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                placeholder="Name (Required)"
-              />
-              <Input
-                value={this.state.ingredients}
-                onChange={this.handleInputChange}
-                name="ingredients"
-                placeholder="Ingredients (Required)"
-              />
-              <Input
-                value={this.state.symptoms}
-                onChange={this.handleInputChange}
-                name="symptoms"
-                placeholder="Symptoms (Optional)"
-              />
-              <div>Time symptoms began:</div>
-              <Time
-                label = "Time Symptoms Began"
-                value={this.state.time}
-                onChange={this.handleInputChange}
-                name="time"
-                placeholder="Time symptoms began. (Optional)"
-              />
-              <div>Time symptoms ceased:</div>
-              <Time
-                value={this.state.duration}
-                onChange={this.handleInputChange}
-                name="duration"
-                placeholder="Time Symptoms Ceased (Optional)"
-              />
-              <Input
-                value={this.state.severity}
-                onChange={this.handleInputChange}
-                name="severity"
-                placeholder="Severity (optional)"
-              />
-              <TextArea
-                value={this.state.specificSymptoms}
-                onChange={this.handleInputChange}
-                name="specificSymptoms"
-                placeholder="Symptom specifics (Optional)"
-              />
-              <FormBtn
-                disabled={!(this.state.name && this.state.category && this.state.maker)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Entry
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Entries</h1>
-            </Jumbotron>
-            {this.state.entries.length ? (
-              <List>
-                {this.state.entries.map(entry => (
-                  <ListItem key={entry._id}>
-                    <Link to={"/entries/" + entry._id}>
-                      <strong>
-                        {entry.name}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteEntry(entry._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
+      <div className="userEntries">
+        {this.props.loggedIn ? (
+          <Container fluid>
+            <Row>
+              <Col size="md-6">
+                <Jumbotron>
+                  <h1>New Diary Entry</h1>
+                </Jumbotron>
+                <form>
+                  <DatePicker
+                    value={this.state.date}
+                    onChange={this.handleInputChange}
+                    name="date"
+                    placeholder="Required"
+                  />
+                  <Input
+                    value={this.state.name}
+                    onChange={this.handleInputChange}
+                    name="name"
+                    placeholder="Name (Required)"
+                  />
+                  <Input
+                    value={this.state.ingredients}
+                    onChange={this.handleInputChange}
+                    name="ingredients"
+                    placeholder="Ingredients (Required)"
+                  />
+                  <Input
+                    value={this.state.symptoms}
+                    onChange={this.handleInputChange}
+                    name="symptoms"
+                    placeholder="Symptoms (Optional)"
+                  />
+                  <div>Time symptoms began:</div>
+                  <Time
+                    label="Time Symptoms Began"
+                    value={this.state.time}
+                    onChange={this.handleInputChange}
+                    name="time"
+                    placeholder="Time symptoms began. (Optional)"
+                  />
+                  <div>Time symptoms ceased:</div>
+                  <Time
+                    value={this.state.duration}
+                    onChange={this.handleInputChange}
+                    name="duration"
+                    placeholder="Time Symptoms Ceased (Optional)"
+                  />
+                  <Input
+                    value={this.state.severity}
+                    onChange={this.handleInputChange}
+                    name="severity"
+                    placeholder="Severity (optional)"
+                  />
+                  <TextArea
+                    value={this.state.specificSymptoms}
+                    onChange={this.handleInputChange}
+                    name="specificSymptoms"
+                    placeholder="Symptom specifics (Optional)"
+                  />
+                  <FormBtn
+                    disabled={
+                      !(
+                        this.state.name &&
+                        this.state.ingredients
+                      )
+                    }
+                    onClick={this.handleFormSubmit}
+                  >
+                    Submit Entry
+                  </FormBtn>
+                </form>
+              </Col>
+              <Col size="md-6 sm-12">
+                <Jumbotron>
+                  <h1>Entries</h1>
+                </Jumbotron>
+                {this.state.user && this.state.user.entryArray.length ? (
+                  <List>
+                    {this.state.user.entryArray.map(entry => (
+                      <ListItem key={entry._id}>
+                        <Link to={"/users/userEntries/" + entry._id}>
+                          <strong>{entry.name}</strong>
+                        </Link>
+                        <DeleteBtn
+                          onClick={() => this.deleteEntry(entry._id)}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                ) : (
+                  <h3>No Results to Display</h3>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        ) : (
+          <div className="noUser">
+            <>
+              <h1>PLEASE LOG IN</h1>
+              <Link className="loginLink" to="/login">
+                <button className="loginBtn" color="info">
+                  Login
+                </button>
+              </Link>
+            </>
+          </div>
+        )}
+      </div>
     );
   }
 }
