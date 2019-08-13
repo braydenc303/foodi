@@ -202,6 +202,7 @@ handleSignup = event => {
                 password={this.state.password} 
                 user={this.state.user} 
                 handleInputChange={this.handleInputChange} 
+                confirmPassword={this.state.confirmPassword} 
                 handleLogin={this.handleLogin} 
                 handleLogout={this.handleLogout} 
                 action="signup" />} />
