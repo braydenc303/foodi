@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 function Login(props) {
-    console.log(props);
+
 
     return (
         <Container>

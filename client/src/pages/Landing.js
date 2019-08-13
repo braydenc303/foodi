@@ -13,7 +13,7 @@ import { Col, Row, Container } from "../components/Grid";
 import API from "../utils/API";
 
 const Landing = props => {
-  console.log(props);
+
 
   return (
     <div className="landingPage">
