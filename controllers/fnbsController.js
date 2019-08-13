@@ -49,7 +49,7 @@ module.exports = {
     // in the fnbs collection
     db.Fnb
     // that has a matching id to what is coming from the parameters of our request which is usually grabbed from a data attribute on click/submit, with the data submitted to the body of the request.
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .findOneAndUpdate({ _id: req.params.id }, req.body.id)
       // then responds with a json object of dat built from our model if successful
       .then(dbModel => res.json(dbModel))
       // or catches the error and responds with a 422 if there is a problem.
