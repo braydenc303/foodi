@@ -47,13 +47,6 @@ class Fnbs extends Component {
             () => {
               this.loadFnbs();
             }
-            // , () =>{
-            //     API.getUserFnbs(this.state.user._id).then(
-            //         res => this.setState({
-            //             user: res.data
-            //         })
-            //     ).catch(err => console.log(err))
-            // }
           );
         }
         console.log(this.state.user);
@@ -219,9 +212,9 @@ class Fnbs extends Component {
                 <Jumbotron>
                   <h1>My List</h1>
                 </Jumbotron>
-                {this.state.user && this.state.user.fnbArray.length ? (
+                {this.state.user && this.state.fnbs.length ? (
                   <List>
-                    {this.state.user.fnbArray.map(fnb => (
+                    {this.state.fnbs.map(fnb => (
                       <ListItem key={fnb._id}>
                         <Link to={"/users/userFnbs/" + fnb._id}>
                           <strong>

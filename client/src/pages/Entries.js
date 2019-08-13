@@ -49,13 +49,7 @@ class Entries extends Component {
               user: user.data.user
             },
             () => {
-              API.getUserEntries(this.state.user._id)
-                .then(res =>
-                  this.setState({
-                    user: res.data
-                  })
-                )
-                .catch(err => console.log(err));
+              this.loadEntries();
             }
           );
         }
@@ -80,8 +74,22 @@ class Entries extends Component {
     // Here we use our API to make an axios call to the database to get all entries.
     API.getEntries()
     // When we get the response back we set the state of the entries array by filling it in with objects for each entry with the structure: {title:"", author: "", synopsis: ""}
-      .then(res =>
-        this.setState({ entries: res.data, name: "", category: "", style: "", maker: "", origin: "", location: "", notes: "", date: Date.now(), userID: this.props.userID })
+      .then(res => {
+        console.log(res.data);
+        return this.setState({ 
+          entries: res.data, 
+          name: "", 
+          ingredients: "", 
+          symptoms: "", 
+          time: "", 
+          duration: "", 
+          location: "", 
+          severity: "",
+          specificSymptoms: "", 
+          date: Date.now(), 
+          userID: this.props.userID
+        })
+      }
       )
       // If there is an error, we console.log it.
       .catch(err => console.log(err));
@@ -211,9 +219,9 @@ class Entries extends Component {
                 <Jumbotron>
                   <h1>Entries</h1>
                 </Jumbotron>
-                {this.state.user && this.state.user.entryArray.length ? (
+                {this.state.user && this.state.entries.length ? (
                   <List>
-                    {this.state.user.entryArray.map(entry => (
+                    {this.state.entries.map(entry => (
                       <ListItem key={entry._id}>
                         <Link to={"/users/userEntries/" + entry._id}>
                           <strong>{entry.name}</strong>
