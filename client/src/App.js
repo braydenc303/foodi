@@ -196,8 +196,14 @@ handleSignup = event => {
 
             <Route exact path="/signup" render={(props) => 
               <Auth {...props} 
+                loggedIn={this.state.loggedIn} 
                 username={this.state.username} 
                 message={this.state.message} 
+                password={this.state.password} 
+                user={this.state.user} 
+                handleInputChange={this.handleInputChange} 
+                handleLogin={this.handleLogin} 
+                handleLogout={this.handleLogout} 
                 action="signup" />} />
 
             <Route exact path="/users/userFnbs" render={(props) => 
