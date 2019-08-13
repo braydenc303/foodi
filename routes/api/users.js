@@ -87,8 +87,8 @@ router.route("/userEntries/:id")
   .put(usersController.update)
   .delete(usersController.remove);    
 
-  // /api/users/userFnbs
-router.route("/userFnbs/:id")
+  // /api/users/
+router.route("/:id")
   .get(usersController.findById)
   .put(usersController.update)
   .delete(usersController.remove);

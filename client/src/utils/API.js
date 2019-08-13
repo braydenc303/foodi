@@ -60,7 +60,7 @@ export default {
     },
     // populates the user with their Tasting Notes
     getUserFnbs: function(id) {
-        return axios.get(`/api/users/userFnbs/${id}`);
+        return axios.get(`/api/users/${id}`);
     },
 
     updateUserFnbs: function(id) {

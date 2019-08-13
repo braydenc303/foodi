@@ -36,43 +36,52 @@ class Fnbs extends Component {
     console.log("hello");
     // this.loading();
 
-    API.isLoggedIn().then(user => {
+    API.isLoggedIn()
+      .then(user => {
         if (user.data.loggedIn) {
-            this.setState({
-                loggedIn: true,
-                user: user.data.user
-            }, () =>{
-                API.getUserFnbs(this.state.user._id).then(
-                    res => this.setState({
-                        user: res.data
-                    })
-                ).catch(err => console.log(err))
-            });
+          this.setState(
+            {
+              loggedIn: true,
+              user: user.data.user
+            },
+            () => {
+              this.loadFnbs();
+            }
+            // , () =>{
+            //     API.getUserFnbs(this.state.user._id).then(
+            //         res => this.setState({
+            //             user: res.data
+            //         })
+            //     ).catch(err => console.log(err))
+            // }
+          );
         }
         console.log(this.state.user);
-    }).catch(err => {
+      })
+      .catch(err => {
         console.log(err);
-    });
+      });
 
     // console.log(this.props)
-}
+  }
 
-loading() {
-    setTimeout(()=> {
-        this.setState({
-            loading: false
-        })
-    }, 1000)  
-}
+  loading() {
+    setTimeout(() => {
+      this.setState({
+        loading: false
+      });
+    }, 1000);
+  }
   // Code to get all of the fnbs information from the database so that we can then display them as a list.
   loadFnbs = () => {
-    console.log(this.props)
+    console.log("Loading data");
     // Here we use our API to make an axios call to the database to get all fnbs.
     API.getUserFnbs(this.props.userID)
       // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
-      .then(res =>
-        this.setState({
-          fnbs: res.data,
+      .then(res => {
+        console.log(res.data.fnbArray);
+        return this.setState({
+          fnbs: res.data.fnbArray,
           name: "",
           category: "",
           style: "",
@@ -82,8 +91,8 @@ loading() {
           notes: "",
           date: Date.now(),
           userID: this.props.userID
-        })
-      )
+        });
+      })
       // If there is an error, we console.log it.
       .catch(err => console.log(err));
   };
