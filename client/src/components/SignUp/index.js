@@ -16,7 +16,6 @@ class SignUp extends Component {
         this.validatePassword();
         this.confirmPassword();
         this.validateUsername();
-        console.log(this.props);
     }
     
     validateUsername() {

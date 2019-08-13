@@ -127,7 +127,7 @@ handleSignup = event => {
                 this.setState({
                     loggedIn: true,
                     user: user.data.user,
-                    username: user.data.user.user.username
+                    username: user.data.user.username
                 });
                 console.log("login successful");
                 this.setState({
@@ -203,7 +203,7 @@ handleSignup = event => {
                 user={this.state.user} 
                 handleInputChange={this.handleInputChange} 
                 confirmPassword={this.state.confirmPassword} 
-                handleLogin={this.handleLogin} 
+                handleSignup={this.handleSignup} 
                 handleLogout={this.handleLogout} 
                 action="signup" />} />
 
