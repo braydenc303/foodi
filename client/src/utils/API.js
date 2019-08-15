@@ -64,7 +64,7 @@ export default {
     },
 
     updateUserFnbs: function(id) {
-      return axios.get(`/api/users/userFnbs/${id}`);
+      return axios.get(`/api/fnbs/${id}`);
     },
     // populates the user with their Diary Entries
     getUserEntries: function(id) {
