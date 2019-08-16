@@ -49,7 +49,7 @@ module.exports = {
     // in the fnbs collection
     db.Fnb
     // that has a matching id to what is coming from the parameters of our request which is usually grabbed from a data attribute on click/submit, with the data submitted to the body of the request.
-      .findOneAndUpdate({ _id: req.params.id }, req.body.id)
+      .findOneAndUpdate({ _id: req.params.id }, req.body)
       // then responds with a json object of dat built from our model if successful
       .then(dbModel => res.json(dbModel))
       // or catches the error and responds with a 422 if there is a problem.
@@ -63,6 +63,11 @@ module.exports = {
       .findById({ _id: req.params.id })
       // then we remove it from the collection
       .then(dbModel => dbModel.remove())
+      .then((fnb) => {
+        fnbID = fnb._id
+        console.log("fnb id:", fnb._id)
+        return db.User.updateMany({}, {$pull: {fnbArray: fnb._id}}, {new: true})
+      })
       // then responds with a json object of the record that was removed if successful
       .then(dbModel => res.json(dbModel))
       // or catches the error and responds with a 422 if there is a problem.

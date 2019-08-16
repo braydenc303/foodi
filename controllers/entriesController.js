@@ -62,6 +62,11 @@ module.exports = {
       .findById({ _id: req.params.id })
       // then we remove it from the collection
       .then(dbModel => dbModel.remove())
+      .then((entry) => {
+        entryID = entry._id
+        console.log("entry id:", entry._id)
+        return db.User.updateMany({}, {$pull: {entryArray: entry._id}}, {new: true})
+      })
       // then responds with a json object of the record that was removed if successful
       .then(dbModel => res.json(dbModel))
       // or catches the error and responds with a 422 if there is a problem.

@@ -16,10 +16,14 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn, DatePicker } from "../components/Form";
 
+import moment from "moment";
+
 // A React Component written with a JavaScript class comes with methods like the class constructor – which is primarily used in React to set initial state or to bind methods – and the mandatory render method to return JSX as output. All the internal React Component logic comes from the extends React.Component via object-oriented inheritance that is used in the class component.  https://www.robinwieruch.de/react-component-types/#react-class-components
 class Fnbs extends Component {
   // Here we set the initial state of fnbs to an empty array which will be filled in with the data that we get back from our axios call to the database when the component mounts. The states of title, author, and synopsis will be updated upon user input in the form.
   state = {
+    loggedIn: false,
+    user: {},
     fnbs: [],
     name: "",
     category: "",
@@ -28,34 +32,14 @@ class Fnbs extends Component {
     origin: "",
     location: "",
     notes: "",
-    date: Date.now(),
+    date: moment(Date.now()).format("YYYY-MM-DD"),
     userID: this.props.userID
   };
   // This calls the following loadfnbs function as soon as this component mounts.
   componentDidMount() {
-    console.log("hello");
-    // this.loading();
 
-    API.isLoggedIn()
-      .then(user => {
-        if (user.data.loggedIn) {
-          this.setState(
-            {
-              loggedIn: true,
-              user: user.data.user
-            },
-            () => {
-              this.loadFnbs();
-            }
-          );
-        }
-        console.log(this.state.user);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.loadFnbs();
 
-    // console.log(this.props)
   }
 
   loading() {
@@ -67,12 +51,10 @@ class Fnbs extends Component {
   }
   // Code to get all of the fnbs information from the database so that we can then display them as a list.
   loadFnbs = () => {
-    console.log("Loading data");
     // Here we use our API to make an axios call to the database to get all fnbs.
     API.getUserFnbs(this.props.userID)
       // When we get the response back we set the state of the fnbs array by filling it in with objects for each fnb with the structure: {title:"", author: "", synopsis: ""}
       .then(res => {
-        console.log(res.data.fnbArray);
         return this.setState({
           fnbs: res.data.fnbArray,
           name: "",
@@ -82,7 +64,7 @@ class Fnbs extends Component {
           origin: "",
           location: "",
           notes: "",
-          date: Date.now(),
+          date: moment(Date.now()).format("YYYY-MM-DD"),
           userID: this.props.userID
         });
       })
@@ -134,8 +116,6 @@ class Fnbs extends Component {
 
   // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
   render() {
-    console.log(this.props);
-    console.log(this.state);
     return (
       <div className="userFnbs">
         {this.props.loggedIn ? (

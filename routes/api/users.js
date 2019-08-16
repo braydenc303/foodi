@@ -85,7 +85,12 @@ router.get("/admin", authMiddleware.isAdmin, function(req, res, next) {
 router.route("/userEntries/:id")
   .get(usersController.findById)
   .put(usersController.update)
-  .delete(usersController.remove);    
+  .delete(usersController.remove);   
+  
+router.route("/userFnbs/:id")
+  .get(usersController.findById)
+  .put(usersController.update)
+  .delete(usersController.remove)
 
   // /api/users/
 router.route("/:id")

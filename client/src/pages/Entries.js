@@ -24,8 +24,10 @@ import moment from "moment";
 class Entries extends Component {
   // Here we set the initial state of entries to an empty array which will be filled in with the data that we get back from our axios call to the database when the component mounts. The states of title, author, and synopsis will be updated upon user input in the form.
   state = {
+    loggedIn: false,
+    user: {},
     entries: [],
-    date: Date.now(),
+    date: moment(Date.now()).format("YYYY-MM-DD"),
     name: "",
     ingredients: "",
     symptoms: "",
@@ -37,29 +39,9 @@ class Entries extends Component {
   };
   // This calls the following loadEntries function as soon as this component mounts.
   componentDidMount() {
-    console.log("hello");
-    // this.loading();
 
-    API.isLoggedIn()
-      .then(user => {
-        if (user.data.loggedIn) {
-          this.setState(
-            {
-              loggedIn: true,
-              user: user.data.user
-            },
-            () => {
-              this.loadEntries();
-            }
-          );
-        }
-        console.log(this.state.user);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.loadEntries();
 
-    // console.log(this.props)
   }
 
   loading() {
@@ -72,22 +54,12 @@ class Entries extends Component {
   // Code to get all of the entries information from the database so that we can then display them as a list.
   loadEntries = () => {
     // Here we use our API to make an axios call to the database to get all entries.
-    API.getEntries()
+    API.getUserEntries(this.props.userID)
     // When we get the response back we set the state of the entries array by filling it in with objects for each entry with the structure: {title:"", author: "", synopsis: ""}
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         return this.setState({ 
-          entries: res.data, 
-          name: "", 
-          ingredients: "", 
-          symptoms: "", 
-          time: "", 
-          duration: "", 
-          location: "", 
-          severity: "",
-          specificSymptoms: "", 
-          date: Date.now(), 
-          userID: this.props.userID
+          entries: res.data.entryArray, 
         })
       }
       )
@@ -118,14 +90,15 @@ class Entries extends Component {
     event.preventDefault();
     // If a title and an author have been provided
     if (this.state.name && this.state.ingredients) {
+      // let time = `${moment(this.state.date).format("YYYY-MM-DD")} ${moment(this.state.time).format("HH:mm")}`
       // we make an API call to save the entry to the database. If no synopsis is provided, it will simply be stored as an empty string.
       API.saveEntry({
         date: this.state.date,
         name: this.state.name,
         ingredients: this.state.ingredients,
         symptoms: this.state.symptoms,
-        time: this.state.time,
-        duration: this.state.duration,
+        time: moment(`${moment(this.state.date).format("YYYY-MM-DD")} ${this.state.time}`, "YYYY-MM-DD HH:mm").format(),
+        duration: moment(`${moment(this.state.date).format("YYYY-MM-DD")} ${this.state.duration}`, "YYYY-MM-DD HH:mm").format(),
         severity: parseInt(this.state.severity),
         specificSymptoms: this.state.specificSymptoms,
         userID: this.props.userID
@@ -139,8 +112,8 @@ class Entries extends Component {
 
   // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
   render() {
-    console.log(this.props);
     console.log(this.state);
+    console.log(this.props);
     return (
       <div className="userEntries">
         {this.props.loggedIn ? (
