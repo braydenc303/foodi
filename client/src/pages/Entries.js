@@ -112,8 +112,6 @@ class Entries extends Component {
 
   // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. This component Uses our bootstrap Container, Row, and Col components to format the page into one column on small screens and two columns on anything larger through the use of bootstrap classes. The What  Should I Have section will contain the form that allows a user to suggest a food or beverage, while the On My List section simply displays a scrollable list of food and drinks in the database along with a button that allows the user to delete a food or drink. If there are no foods or drinks in the database, we display "No Results to Display."
   render() {
-    console.log(this.state);
-    console.log(this.props);
     return (
       <div className="userEntries">
         {this.props.loggedIn ? (
