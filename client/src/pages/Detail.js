@@ -11,6 +11,8 @@ import API from "../utils/API";
 
 import { Input, TextArea, FormBtn, DatePicker } from "../components/Form";
 
+import moment from "moment";
+
 
 // A React Component written with a JavaScript class comes with methods like the class constructor – which is primarily used in React to set initial state or to bind methods – and the mandatory render method to return JSX as output. All the internal React Component logic comes from the extends React.Component via object-oriented inheritance that is used in the class component.  https://www.robinwieruch.de/react-component-types/#react-class-components
 class Detail extends Component {
@@ -24,19 +26,18 @@ class Detail extends Component {
     origin: "",
     location: "",
     notes: "",
-    date: Date.now(),
+    date: "",
     userID: this.props.userID
   };
-  // Code to get the book with an _id equal to the id in the route param
-  // e.g. http://localhost:3000/books/:id
+
   componentDidMount() {
     this.loadFnb();
   }
 
   loadFnb() {
-       // The book id for this route can be accessed using this.props.match.params.id
+       // The id for this route can be accessed using this.props.match.params.id
        API.getFnb(this.props.match.params.id)
-       // We then set the state stored in book to the response data that we get back
+       // We then set the state to the response data that we get back
        .then(res => this.setState({ 
          _id: res.data._id,
          fnb: res.data,
@@ -47,14 +48,14 @@ class Detail extends Component {
          origin: res.data.origin,
          location: res.data.location,
          notes: res.data.notes,
-         date: res.data.date
+         date: moment(res.data.date, "YYYY-MM-DD").format("YYYY-MM-DD")
         }))
        // If there is an error, we console.log the error.
        .catch(err => console.log(err));
   }
 
     // Here we write a method to update state anytime an input in one of the form fields changes. Each input change is an event that we must pass into this method.
-    handleInputChange = (event, id) => {
+    handleInputChange = (event) => {
       // console.log(event.target);
       // event.target gives us access to the name and value attributes of the field that changed. We then set those variables and use them to update state in order to reflect the change.
       const { name, value } = event.target;
@@ -66,25 +67,22 @@ class Detail extends Component {
     handleFormSubmit = (event) => {
       // We must prevent the default behavior of the submit button to avoid reloading the page.
       event.preventDefault();
-      // If a title and an author have been provided
-      if (this.state.name && this.state.category && this.state.maker) {
-        // we make an API call to save the fnb to the database. If no synopsis is provided, it will simply be stored as an empty string.
-        API.updateFnb(this.state._id, {
-          name: this.state.name,
-          category: this.state.category,
-          style: this.state.style,
-          maker: this.state.maker,
-          origin: this.state.origin,
-          location: this.state.location,
-          notes: this.state.notes,
-          date: this.state.date,
-          userID: this.props.userID
-        })
-          // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
-          .then(res => this.loadFnb())
-          // If there is an error, we console.log it.
-          .catch(err => console.log(err));
-      }
+      // we make an API call to save the fnb to the database.
+      API.updateFnb(this.state._id, {
+        name: this.state.name,
+        category: this.state.category,
+        style: this.state.style,
+        maker: this.state.maker,
+        origin: this.state.origin,
+        location: this.state.location,
+        notes: this.state.notes,
+        date: moment(this.state.date).format(),
+        userID: this.props.userID
+      })
+        // Once we have successfully saved the fnb, we call the loadfnbs method to once again re-render the fnbs to the page so that our list includes the fnb that was just added.
+        .then(res => this.loadFnb())
+        // If there is an error, we console.log it.
+        .catch(err => console.log(err));
     };
   // The render method returns all of the JSX that will be put on the page. The container, Row, Col, and Jumbotron are all required for our Bootstrap styles. We then create an h1 tag with the book title and author that we have stored in state, followed by an article tag that contains a paragraph with the book synopsis. That is finally followed by a link back to the home page.
   render() {
@@ -124,12 +122,12 @@ class Detail extends Component {
               </Col>
             </Row>
             <Row>
-              <Col size="md-10 md-offset-1">
+              <div className="col-md-10 offset-1">
                 <article>
                   <h1>Notes</h1>
                   <pre>{this.state.notes}</pre>
                 </article>
-              </Col>
+              </div>
             </Row>
             <Row>
               <div className="col-md-4 offset-4">
@@ -199,7 +197,7 @@ class Detail extends Component {
             </Row>
             <Row>
               <Col size="md-2">
-                <Link to="/fnbs">← Back to List</Link>
+                <Link to="/users/userfnbs">← Back to List</Link>
               </Col>
             </Row>
           </Container>
